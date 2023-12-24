@@ -5,7 +5,6 @@ final class ImagesListViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
     }
 }
 
@@ -15,10 +14,21 @@ extension ImagesListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        let cell = tableView.dequeueReusableCell(withIdentifier: ImagesListCell.reuseIdentifier, for: indexPath)
+
+        guard let imageListCell = cell as? ImagesListCell else {
+            return UITableViewCell()
+        }
+
+        configCell(for: imageListCell, with: indexPath)
+
+        return imageListCell
     }
-    
-    
+}
+
+extension ImagesListViewController {
+    func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
+    }
 }
 
 extension ImagesListViewController: UITableViewDelegate {}
