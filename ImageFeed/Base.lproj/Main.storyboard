@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22155" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="O0k-f2-SGo">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22155" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="2Gr-ye-1Qs">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -8,6 +8,28 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Tab Bar Controller-->
+        <scene sceneID="2Gi-Gg-1WM">
+            <objects>
+                <tabBarController id="2Gr-ye-1Qs" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="mME-a5-CB6">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="selectedImageTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <tabBarAppearance key="standardAppearance">
+                            <color key="backgroundColor" red="0.1019607843" green="0.1058823529" blue="0.1333333333" alpha="1" colorSpace="calibratedRGB"/>
+                        </tabBarAppearance>
+                    </tabBar>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="Qei-rw-BQ9"/>
+                        <segue destination="O0k-f2-SGo" kind="relationship" relationship="viewControllers" id="cnc-5L-AXg"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8Gy-2R-Wq1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1239" y="365"/>
+        </scene>
         <!--Profile View Controller-->
         <scene sceneID="MLm-sS-knP">
             <objects>
@@ -70,6 +92,7 @@
                             <constraint firstItem="D9Y-mj-kFk" firstAttribute="trailing" secondItem="6M6-Pz-QYy" secondAttribute="trailing" constant="16" id="yHH-IK-ir1"/>
                         </constraints>
                     </view>
+                    <tabBarItem key="tabBarItem" title="" image="ProfileTabImage" id="nBZ-CV-JOR"/>
                     <connections>
                         <outlet property="descriptionLabel" destination="R7p-pX-xt8" id="1IO-8a-8Qm"/>
                         <outlet property="loginNameLabel" destination="w9O-HK-GNG" id="DnQ-0r-6do"/>
@@ -80,7 +103,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3mo-L0-W7l" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-877" y="54"/>
+            <point key="canvasLocation" x="86" y="740"/>
         </scene>
         <!--Images List View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -157,6 +180,7 @@
                             <constraint firstItem="Kgk-XU-ytX" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="zVg-rj-Mbg"/>
                         </constraints>
                     </view>
+                    <tabBarItem key="tabBarItem" title="" image="ImagesListTabImage" id="v5F-0U-lt7"/>
                     <connections>
                         <outlet property="tableView" destination="Kgk-XU-ytX" id="ob0-QN-ByI"/>
                     </connections>
@@ -168,6 +192,8 @@
     </scenes>
     <resources>
         <image name="0" width="200" height="132"/>
+        <image name="ImagesListTabImage" width="30" height="30"/>
+        <image name="ProfileTabImage" width="30" height="30"/>
         <image name="like_button_on" width="42" height="42"/>
         <image name="logoutButton" width="24" height="24"/>
         <image name="profileImage" width="70" height="70"/>
