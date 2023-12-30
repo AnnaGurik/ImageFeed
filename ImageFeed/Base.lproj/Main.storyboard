@@ -71,11 +71,11 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="descriptionLabel" destination="R7p-pX-xt8" id="wn9-Nw-6Y8"/>
-                        <outlet property="loginNameLabel" destination="w9O-HK-GNG" id="ozu-Cy-XAb"/>
-                        <outlet property="logoutButton" destination="cLx-wH-Q6Z" id="ouM-sL-mua"/>
-                        <outlet property="nameLabel" destination="6M6-Pz-QYy" id="b3b-ka-xvC"/>
-                        <outlet property="profileImage" destination="rzi-j6-bzb" id="UxP-fq-AGc"/>
+                        <outlet property="descriptionLabel" destination="R7p-pX-xt8" id="1IO-8a-8Qm"/>
+                        <outlet property="loginNameLabel" destination="w9O-HK-GNG" id="DnQ-0r-6do"/>
+                        <outlet property="logoutButton" destination="cLx-wH-Q6Z" id="x4M-zr-DUU"/>
+                        <outlet property="nameLabel" destination="6M6-Pz-QYy" id="ttp-2M-38D"/>
+                        <outlet property="profileImage" destination="rzi-j6-bzb" id="FmC-B9-TXz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3mo-L0-W7l" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
