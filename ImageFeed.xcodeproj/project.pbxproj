@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FE2016552B40C5A800CE76C2 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE2016542B40C5A800CE76C2 /* ProfileViewController.swift */; };
 		FE815D442B3879790057F07D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE815D432B3879790057F07D /* AppDelegate.swift */; };
 		FE815D462B3879790057F07D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE815D452B3879790057F07D /* SceneDelegate.swift */; };
 		FE815D482B3879790057F07D /* ImagesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE815D472B3879790057F07D /* ImagesListViewController.swift */; };
@@ -38,6 +39,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FE2016542B40C5A800CE76C2 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		FE815D402B3879790057F07D /* ImageFeed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageFeed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE815D432B3879790057F07D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FE815D452B3879790057F07D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -80,6 +82,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FE2016532B40C59B00CE76C2 /* ProfileView */ = {
+			isa = PBXGroup;
+			children = (
+				FE2016542B40C5A800CE76C2 /* ProfileViewController.swift */,
+			);
+			path = ProfileView;
+			sourceTree = "<group>";
+		};
 		FE815D372B3879790057F07D = {
 			isa = PBXGroup;
 			children = (
@@ -103,6 +113,7 @@
 		FE815D422B3879790057F07D /* ImageFeed */ = {
 			isa = PBXGroup;
 			children = (
+				FE2016532B40C59B00CE76C2 /* ProfileView */,
 				FE815D762B387AEE0057F07D /* ImagesListView */,
 				FE815D432B3879790057F07D /* AppDelegate.swift */,
 				FE815D452B3879790057F07D /* SceneDelegate.swift */,
@@ -280,6 +291,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FE2016552B40C5A800CE76C2 /* ProfileViewController.swift in Sources */,
 				FE815D482B3879790057F07D /* ImagesListViewController.swift in Sources */,
 				FE815D792B387C1F0057F07D /* ImagesListCell.swift in Sources */,
 				FE815D4E2B3879790057F07D /* ImageFeed.xcdatamodeld in Sources */,
