@@ -2,6 +2,12 @@ import UIKit
 import ProgressHUD
 
 final class SplashViewController: UIViewController {
+    private let launchImage: UIImageView = {
+        let image = UIImage(named: "LaunchImage")
+        
+        return UIImageView(image: image)
+    }()
+    
     private let ShowAuthenticationScreenSegueIdentifier = "ShowAuthenticationScreen"
 
     private let oauth2Service = OAuth2Service()
@@ -10,6 +16,9 @@ final class SplashViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor(red: 26/255, green: 27/255, blue: 34/255, alpha: 1.0)
+        addSubviews()
+        setupLayout()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -19,17 +28,28 @@ final class SplashViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
         if let token = oauth2TokenStorage.token {
             UIBlockingProgressHUD.show()
             self.fetchProfile(token: token)
         } else {
-            performSegue(withIdentifier: ShowAuthenticationScreenSegueIdentifier, sender: nil)
+            showAuthView()
         }
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .lightContent
+    }
+    
+    private func addSubviews() {
+        launchImage.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(launchImage)
+    }
+    
+    private func setupLayout() {
+        NSLayoutConstraint.activate([
+            launchImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            launchImage.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
     }
 
     private func switchToTabBarController() {
@@ -41,16 +61,12 @@ final class SplashViewController: UIViewController {
 }
 
 extension SplashViewController {
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == ShowAuthenticationScreenSegueIdentifier {
-            guard
-                let navigationController = segue.destination as? UINavigationController,
-                let viewController = navigationController.viewControllers[0] as? AuthViewController
-            else { fatalError("Failed to prepare for \(ShowAuthenticationScreenSegueIdentifier)") }
-            viewController.delegate = self
-        } else {
-            super.prepare(for: segue, sender: sender)
-        }
+    private func showAuthView() {
+        let storyboard = UIStoryboard(name: "Main", bundle: .main)
+        let authViewController = storyboard.instantiateViewController(withIdentifier: "AuthViewController") as! AuthViewController
+        authViewController.delegate = self
+        authViewController.modalPresentationStyle = .fullScreen
+        present(authViewController, animated: true, completion: nil)
     }
 }
 
