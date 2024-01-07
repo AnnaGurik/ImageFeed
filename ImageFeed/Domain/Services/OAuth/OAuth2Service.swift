@@ -1,10 +1,10 @@
 import Foundation
 
 final class OAuth2Service {
-    private let urlSession = URLSession.shared              // 1
+    private let urlSession = URLSession.shared 
     
-    private var task: URLSessionTask?                       // 2
-    private var lastCode: String?                           // 3
+    private var task: URLSessionTask?
+    private var lastCode: String?
     
     func fetchOAuthToken(_ code: String, completion: @escaping (Result<String, Error>) -> Void) {
         assert(Thread.isMainThread)

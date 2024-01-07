@@ -18,8 +18,7 @@ final class ProfileViewController: UIViewController {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 23, weight: .semibold)
         label.textColor = .white
-        label.text = "Екатерина Новикова"
-        
+
         return label
     }()
     
@@ -27,7 +26,6 @@ final class ProfileViewController: UIViewController {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 13)
         label.textColor = UIColor(red: 174/255, green: 175/255, blue: 180/255, alpha: 1.0)
-        label.text = "@ekaterina_nov"
         
         return label
     }()
@@ -36,16 +34,18 @@ final class ProfileViewController: UIViewController {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 13)
         label.textColor = .white
-        label.text = "Hello, World!"
         
         return label
     }()
+    
+    private let profileService = ProfileService.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(red: 26/255, green: 27/255, blue: 34/255, alpha: 1.0)
         addSubviews()
         setupLayout()
+        updateData()
     }
     
     private func addSubviews() {
@@ -86,5 +86,13 @@ final class ProfileViewController: UIViewController {
             descriptionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
         ])
         
+    }
+    
+    private func updateData() {
+        guard let profile = profileService.profile else { return }
+        
+        nameLabel.text = profile.name
+        loginNameLabel.text = profile.loginName
+        descriptionLabel.text = profile.bio
     }
 }
