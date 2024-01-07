@@ -23,7 +23,7 @@ final class OAuth2Service {
         
         let request = makeRequest(code: code)
         
-        let task = object(for: request) { [weak self] result in
+        let task = urlSession.objectTask(for: request) { [weak self] (result: Result<OAuthTokenResponseBody, Error>) in
             switch result {
             case .success(let token):
                 OAuth2TokenStorage().token = token.accessToken
@@ -37,37 +37,6 @@ final class OAuth2Service {
         
         self.task = task
         task.resume()
-    }
-    
-    private func data(for request: URLRequest, completion: @escaping (Result<Data, Error>) -> Void) -> URLSessionTask {
-        let fulfillCompletionOnTheMainThread: (Result<Data, Error>) -> Void = { result in
-            DispatchQueue.main.async {
-                completion(result)
-            }
-        }
-
-        let task = urlSession.dataTask(with: request, completionHandler: { data, response, error in
-            if let data = data, let response = response, let statusCode = (response as? HTTPURLResponse)?.statusCode {
-                if 200 ..< 300 ~= statusCode {
-                    fulfillCompletionOnTheMainThread(.success(data))
-                } else {
-                }
-            } else if let error = error {
-                fulfillCompletionOnTheMainThread(.failure(error))
-            }
-        })
-        task.resume()
-        return task
-    }
-    
-    private func object(for request: URLRequest, completion: @escaping (Result<OAuthTokenResponseBody, Error>) -> Void) -> URLSessionTask {
-        let decoder = JSONDecoder()
-        return data(for: request) { (result: Result<Data, Error>) in
-            let response = result.flatMap { data -> Result<OAuthTokenResponseBody, Error> in
-                Result { try decoder.decode(OAuthTokenResponseBody.self, from: data) }
-            }
-            completion(response)
-        }
     }
     
     private func makeRequest(code: String) -> URLRequest {
@@ -86,5 +55,31 @@ final class OAuth2Service {
         request.httpMethod = "POST"
         
         return request
+    }
+}
+
+extension URLSession {
+    func objectTask<T: Decodable>(for request: URLRequest, completion: @escaping (Result<T, Error>) -> Void) -> URLSessionTask {
+        let fulfillCompletionOnTheMainThread: (Result<T, Error>) -> Void = { result in
+            DispatchQueue.main.async {
+                completion(result)
+            }
+        }
+        
+        let task = dataTask(with: request, completionHandler: { data, response, error in
+            if let data = data, let response = response, let statusCode = (response as? HTTPURLResponse)?.statusCode {
+                if 200 ..< 300 ~= statusCode {
+                    do {
+                        let resultData = try JSONDecoder().decode(T.self, from: data)
+                        fulfillCompletionOnTheMainThread(.success(resultData))
+                    } catch {
+                        fulfillCompletionOnTheMainThread(.failure(error))
+                    }
+                }
+            } else if let error = error {
+                fulfillCompletionOnTheMainThread(.failure(error))
+            }
+        })
+        return task
     }
 }

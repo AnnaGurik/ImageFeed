@@ -67,25 +67,37 @@ extension SplashViewController: AuthViewControllerDelegate {
         oauth2Service.fetchOAuthToken(code) { [weak self] result in
             switch result {
             case .success(let token):
-                self?.switchToTabBarController()
                 self?.fetchProfile(token: token)
             case .failure:
                 UIBlockingProgressHUD.dismiss()
+                self?.showAlert(title: "Не удалось войти в систему", description: nil)
+                break
             }
         }
     }
     
     private func fetchProfile(token: String) {
         profileService.fetchProfile(token) { [weak self] result in
-            guard let self = self else { return }
             switch result {
-            case .success:
+            case .success(let profile):
+                ProfileImageService.shared.fetchProfileImageURL(username: profile.username, {_ in})
                 UIBlockingProgressHUD.dismiss()
-                self.switchToTabBarController()
+                self?.switchToTabBarController()
             case .failure:
                 UIBlockingProgressHUD.dismiss()
+                self?.showAlert(title: "Что-то пошло не так", description: nil)
                 break
             }
         }
+    }
+}
+
+extension SplashViewController {
+    private func showAlert(title: String, description: String?) {
+        let alert = UIAlertController(title: title, message: description, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Ок", style: .cancel)
+        alert.addAction(okAction)
+        
+        self.show(alert, sender: nil)
     }
 }
