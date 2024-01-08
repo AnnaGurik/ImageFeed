@@ -32,7 +32,7 @@ final class ProfileService {
     }
     
     private func makeRequest(token: String) -> URLRequest {
-        guard let url = URL(string: "/me", relativeTo: Constants.DefaultBaseURL) else { fatalError() }
+        guard let url = URL(string: "/me", relativeTo: AuthConfiguration.standard.defaultBaseURL) else { fatalError() }
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"

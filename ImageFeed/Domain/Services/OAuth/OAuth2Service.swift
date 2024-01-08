@@ -43,9 +43,9 @@ final class OAuth2Service {
         guard
             let url = URL(
                 string: "/oauth/token"
-                + "?client_id=\(Constants.AccessKey)"
-                + "&&client_secret=\(Constants.SecretKey)"
-                + "&&redirect_uri=\(Constants.RedirectURI)"
+                + "?client_id=\(AuthConfiguration.standard.accessKey)"
+                + "&&client_secret=\(AuthConfiguration.standard.secretKey)"
+                + "&&redirect_uri=\(AuthConfiguration.standard.redirectURI)"
                 + "&&code=\(code)"
                 + "&&grant_type=authorization_code",
                 relativeTo: URL(string: "https://unsplash.com")

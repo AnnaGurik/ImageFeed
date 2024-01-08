@@ -70,7 +70,7 @@ final class ProfileImageService {
     }
     
     private func makeRequest(username: String, token: String) -> URLRequest {
-        guard let url = URL(string: "/users/\(username)", relativeTo: Constants.DefaultBaseURL) else { fatalError() }
+        guard let url = URL(string: "/users/\(username)", relativeTo: AuthConfiguration.standard.defaultBaseURL) else { fatalError() }
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
