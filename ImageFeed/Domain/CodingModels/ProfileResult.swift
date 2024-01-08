@@ -14,16 +14,23 @@ struct ProfileResult: Codable {
     }
 }
 
-struct Profile {
-    let username: String
-    let name: String
-    let loginName: String
-    let bio: String
+public struct Profile {
+    public let username: String
+    public let name: String
+    public let loginName: String
+    public let bio: String
     
     init(profileResult: ProfileResult) {
         self.username = profileResult.username
         self.name = profileResult.firstName + profileResult.lastName
         self.loginName = "@\(profileResult.username)"
         self.bio = profileResult.bio ?? ""
+    }
+    
+    public init(username: String, name: String, loginName: String, bio: String) {
+        self.username = username
+        self.name = name
+        self.loginName = loginName
+        self.bio = bio
     }
 }

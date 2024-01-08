@@ -1,7 +1,13 @@
 import UIKit
 import Kingfisher
 
-final class ProfileViewController: UIViewController {
+public protocol ProfileViewControllerProtocol: AnyObject {
+    var presenter: ProfilePresenterProtocol? { get set }
+    func updateAvatar(_ url: URL)
+    func updateData(profile: Profile)
+}
+
+final class ProfileViewController: UIViewController & ProfileViewControllerProtocol {
     private let profileImage: UIImageView = {
         let image = UIImage(named: "profileImage")
         
@@ -39,26 +45,15 @@ final class ProfileViewController: UIViewController {
         return label
     }()
     
-    private let profileService = ProfileService.shared
-    private var profileImageServiceObserver: NSObjectProtocol?
+    var presenter: ProfilePresenterProtocol?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        logoutButton.accessibilityIdentifier = "logoutButton"
         view.backgroundColor = UIColor(red: 26/255, green: 27/255, blue: 34/255, alpha: 1.0)
         addSubviews()
         setupLayout()
-        updateData()
-        
-        profileImageServiceObserver = NotificationCenter.default
-        .addObserver(
-            forName: ProfileImageService.DidChangeNotification,
-            object: nil,
-            queue: .main
-        ) { [weak self] _ in
-            guard let self = self else { return }
-            self.updateAvatar()
-        }
-        updateAvatar()
+        presenter?.viewDidLoad()
     }
     
     private func addSubviews() {
@@ -100,21 +95,16 @@ final class ProfileViewController: UIViewController {
         ])
         
     }
-    
-    private func updateData() {
-        guard let profile = profileService.profile else { return }
-        
+}
+
+extension ProfileViewController {
+    func updateData(profile: Profile) {
         nameLabel.text = profile.name
         loginNameLabel.text = profile.loginName
         descriptionLabel.text = profile.bio
     }
     
-    private func updateAvatar() {
-        guard
-            let profileImageURL = ProfileImageService.shared.avatarURL,
-            let url = URL(string: profileImageURL)
-        else { return }
-        
+    func updateAvatar(_ url: URL) {
         profileImage.kf.setImage(with: url)
     }
 }
@@ -122,14 +112,7 @@ final class ProfileViewController: UIViewController {
 extension ProfileViewController {
     @objc private func logout(_ sender: UIButton) {
         self.showLogoutAlert { [weak self] in
-            self?.cleanAndLogout()
+            self?.presenter?.cleanAndLogout()
         }
-    }
-    
-    private func cleanAndLogout() {
-        OAuth2TokenStorage.clean()
-        
-        guard let window = UIApplication.shared.windows.first else { return }
-        window.rootViewController = SplashViewController()
     }
 }
