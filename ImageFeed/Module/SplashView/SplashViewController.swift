@@ -107,13 +107,3 @@ extension SplashViewController: AuthViewControllerDelegate {
         }
     }
 }
-
-extension SplashViewController {
-    private func showAlert(title: String, description: String?) {
-        let alert = UIAlertController(title: title, message: description, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "Ок", style: .cancel)
-        alert.addAction(okAction)
-        
-        self.show(alert, sender: nil)
-    }
-}

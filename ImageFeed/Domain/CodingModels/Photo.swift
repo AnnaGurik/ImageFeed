@@ -22,7 +22,7 @@ struct Photo {
 
 struct PhotoResult: Codable {
     let id: String
-    let createdAt: String?
+    let createdAt: String
     let width: Int
     let height: Int
     let description: String?
