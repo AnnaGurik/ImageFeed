@@ -11,7 +11,7 @@ final class ProfileViewController: UIViewController {
     private let logoutButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "logoutButton"), for: .normal)
-        
+        button.addTarget(nil, action: #selector(logout), for: .touchUpInside)
         return button
     }()
     
@@ -116,5 +116,20 @@ final class ProfileViewController: UIViewController {
         else { return }
         
         profileImage.kf.setImage(with: url)
+    }
+}
+
+extension ProfileViewController {
+    @objc private func logout(_ sender: UIButton) {
+        self.showLogoutAlert { [weak self] in
+            self?.cleanAndLogout()
+        }
+    }
+    
+    private func cleanAndLogout() {
+        OAuth2TokenStorage.clean()
+        
+        guard let window = UIApplication.shared.windows.first else { return }
+        window.rootViewController = SplashViewController()
     }
 }

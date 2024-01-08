@@ -8,7 +8,9 @@ extension UIViewController {
         
         self.show(alert, sender: nil)
     }
-    
+}
+
+extension UIViewController {
     func showError(retry: (() -> Void)? = nil) {
         let alert = UIAlertController(title: "Что-то пошло не так", message: nil, preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "Не надо", style: .cancel)
@@ -18,6 +20,21 @@ extension UIViewController {
         
         alert.addAction(retryAction)
         alert.addAction(cancelAction)
+        
+        self.show(alert, sender: nil)
+    }
+}
+
+extension UIViewController {
+    func showLogoutAlert(action: (() -> Void)? = nil) {
+        let alert = UIAlertController(title: "Вы уверены, что хотите выйти?", message: nil, preferredStyle: .alert)
+        let logoutAction = UIAlertAction(title: "Выход", style: .destructive) { _ in
+            action?()
+        }
+        let closeAction = UIAlertAction(title: "Нет", style: .cancel)
+        
+        alert.addAction(logoutAction)
+        alert.addAction(closeAction)
         
         self.show(alert, sender: nil)
     }
