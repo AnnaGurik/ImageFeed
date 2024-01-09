@@ -63,11 +63,10 @@ extension SplashViewController: AuthViewControllerDelegate {
         oauth2Service.fetchAuthToken(code: code) { [weak self] result in
             switch result {
             case .success(let token):
-                DispatchQueue.main.async {
-                    self?.oauth2TokenStorage.token = token
-                    self?.switchToTabBarController()
-                }
+                self?.oauth2TokenStorage.token = token
+                self?.switchToTabBarController()
             case .failure(let failure):
+                // TODO - next sprint
                 break
             }
         }
