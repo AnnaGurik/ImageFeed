@@ -26,7 +26,8 @@ final class OAuth2Service {
             }
             
             if let response = response as? HTTPURLResponse,
-               (200...299).contains(response.statusCode), let data = data {
+               (200...299).contains(response.statusCode),
+                let data = data {
                 do {
                     let decodeData = try JSONDecoder().decode(OAuthTokenResponseBody.self, from: data)
                     fulfillCompletionOnTheMainThread(.success(decodeData.accessToken))
