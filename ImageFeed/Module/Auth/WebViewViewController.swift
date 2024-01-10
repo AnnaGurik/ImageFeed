@@ -1,7 +1,6 @@
 import UIKit
 import WebKit
 
-fileprivate let UnsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
 
 protocol WebViewViewControllerDelegate: AnyObject {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String)
@@ -25,17 +24,18 @@ final class WebViewViewController: UIViewController {
                 self.updateProgress()
             }
         )
-        var urlComponents = URLComponents(string: UnsplashAuthorizeURLString)!
+        guard var urlComponents = URLComponents(string: ConstantsWebViewController.unsplashAuthorizeURLString.rawValue) else { return }
         urlComponents.queryItems = [
-            URLQueryItem(name: "client_id", value: Constants.AccessKey),
-            URLQueryItem(name: "redirect_uri", value: Constants.RedirectURI),
+            URLQueryItem(name: "client_id", value: Constants.accessKey),
+            URLQueryItem(name: "redirect_uri", value: Constants.redirectURI),
             URLQueryItem(name: "response_type", value: "code"),
-            URLQueryItem(name: "scope", value: Constants.AccessScope)
+            URLQueryItem(name: "scope", value: Constants.accessScope)
         ]
-        let url = urlComponents.url!
-                
-        let request = URLRequest(url: url)
-        webView.load(request)
+        
+        if let url = urlComponents.url {
+            let request = URLRequest(url: url)
+            webView.load(request)
+        }
         
         webView.navigationDelegate = self
     }
@@ -82,4 +82,11 @@ extension WebViewViewController: WKNavigationDelegate {
         } else {
             return nil
         }
-    }}
+    }
+}
+
+extension WebViewViewController {
+    private enum ConstantsWebViewController: String {
+        case unsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
+    }
+}
