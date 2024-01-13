@@ -47,10 +47,8 @@ final class ProfileImageService {
 
         let task = urlSession.dataTask(with: request, completionHandler: { data, response, error in
             if let data = data, let response = response, let statusCode = (response as? HTTPURLResponse)?.statusCode {
-                if 200 ..< 300 ~= statusCode {
+                guard 200 ..< 300 ~= statusCode else { return }
                     fulfillCompletionOnTheMainThread(.success(data))
-                } else {
-                }
             } else if let error = error {
                 fulfillCompletionOnTheMainThread(.failure(error))
             }
