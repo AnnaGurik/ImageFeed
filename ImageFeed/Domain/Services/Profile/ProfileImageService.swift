@@ -45,26 +45,16 @@ final class ProfileImageService {
             }
         }
 
-        let task = urlSession.dataTask(with: request, completionHandler: { data, response, error in
+        let task = urlSession.dataTask(with: request) { data, response, error in
             if let data = data, let response = response, let statusCode = (response as? HTTPURLResponse)?.statusCode {
                 guard 200 ..< 300 ~= statusCode else { return }
                     fulfillCompletionOnTheMainThread(.success(data))
             } else if let error = error {
                 fulfillCompletionOnTheMainThread(.failure(error))
             }
-        })
+        }
         task.resume()
         return task
-    }
-    
-    private func object(for request: URLRequest, completion: @escaping (Result<UserResult, Error>) -> Void) -> URLSessionTask {
-        let decoder = JSONDecoder()
-        return data(for: request) { (result: Result<Data, Error>) in
-            let response = result.flatMap { data -> Result<UserResult, Error> in
-                Result { try decoder.decode(UserResult.self, from: data) }
-            }
-            completion(response)
-        }
     }
     
     private func makeRequest(username: String, token: String) -> URLRequest {
