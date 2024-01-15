@@ -67,7 +67,7 @@ final class ImagesListService {
     
     private func makeRequestPage(page: Int) -> URLRequest {
         guard
-            let url = URL(string: "/photos?page=\(page)", relativeTo: Constants.DefaultBaseURL),
+            let url = URL(string: "/photos?page=\(page)", relativeTo: Constants.defaultBaseURL),
             let token = OAuth2TokenStorage().token
         else { fatalError() }
         
@@ -80,7 +80,7 @@ final class ImagesListService {
     
     private func makeRequestLike(photoId: String, isLike: Bool) -> URLRequest {
         guard
-            let url = URL(string: "/photos/\(photoId)/like", relativeTo: Constants.DefaultBaseURL),
+            let url = URL(string: "/photos/\(photoId)/like", relativeTo: Constants.defaultBaseURL),
             let token = OAuth2TokenStorage().token
         else { fatalError() }
         

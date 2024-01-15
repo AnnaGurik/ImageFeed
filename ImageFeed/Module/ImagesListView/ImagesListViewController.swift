@@ -4,6 +4,7 @@ final class ImagesListViewController: UIViewController {
     @IBOutlet private weak var tableView: UITableView!
     
     private let showSingleImageSegueIdentifier = "ShowSingleImage"
+    private let imagesListService = ImagesListService.shared
     private let photosName: [String] = Array(0..<20).map{ "\($0)" }
     private var photos: [Photo] = []
 
@@ -25,9 +26,11 @@ final class ImagesListViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == ShowSingleImageSegueIdentifier {
-            let viewController = segue.destination as! SingleImageViewController
-            guard let indexPath = sender as? IndexPath else { return }
+        if segue.identifier == showSingleImageSegueIdentifier {
+            guard
+                let viewController = segue.destination as? SingleImageViewController,
+                let indexPath = sender as? IndexPath
+            else { return }
             let photoUrl = photos[indexPath.row].largeImageURL
             viewController.fullImageURL = URL(string: photoUrl)
         } else {
