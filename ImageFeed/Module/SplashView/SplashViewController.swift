@@ -8,7 +8,7 @@ final class SplashViewController: UIViewController {
         return UIImageView(image: image)
     }()
     
-    private let ShowAuthenticationScreenSegueIdentifier = "ShowAuthenticationScreen"
+    private let showAuthenticationScreenSegueIdentifier = "ShowAuthenticationScreen"
 
     private let oauth2Service = OAuth2Service()
     private let oauth2TokenStorage = OAuth2TokenStorage()
@@ -28,11 +28,18 @@ final class SplashViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if let token = oauth2TokenStorage.token {
-            UIBlockingProgressHUD.show()
-            self.fetchProfile(token: token)
-        } else {
-            showAuthView()
+        checkToken()
+    }
+    
+    private func checkToken() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            if let token = oauth2TokenStorage.token {
+                UIBlockingProgressHUD.show()
+                self.fetchProfile(token: token)
+            } else {
+                showAuthView()
+            }
         }
     }
     

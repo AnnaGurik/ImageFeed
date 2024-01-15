@@ -3,8 +3,7 @@ import UIKit
 final class ImagesListViewController: UIViewController {
     @IBOutlet private weak var tableView: UITableView!
     
-    private let ShowSingleImageSegueIdentifier = "ShowSingleImage"
-    private let imagesListService = ImagesListService.shared
+    private let showSingleImageSegueIdentifier = "ShowSingleImage"
     private let photosName: [String] = Array(0..<20).map{ "\($0)" }
     private var photos: [Photo] = []
 
@@ -123,7 +122,7 @@ extension ImagesListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: ShowSingleImageSegueIdentifier, sender: indexPath)
+        performSegue(withIdentifier: showSingleImageSegueIdentifier, sender: indexPath)
     }
 }
 

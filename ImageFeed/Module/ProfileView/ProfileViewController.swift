@@ -51,7 +51,7 @@ final class ProfileViewController: UIViewController {
         
         profileImageServiceObserver = NotificationCenter.default
         .addObserver(
-            forName: ProfileImageService.DidChangeNotification,
+            forName: ProfileImageService.didChangeNotification,
             object: nil,
             queue: .main
         ) { [weak self] _ in
@@ -63,8 +63,10 @@ final class ProfileViewController: UIViewController {
     
     private func addSubviews() {
         let subviews: [UIView] = [profileImage, logoutButton, nameLabel, loginNameLabel, descriptionLabel]
-        subviews.forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
-        subviews.forEach { view.addSubview($0) }
+        subviews.forEach { 
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            view.addSubview($0)
+        }
     }
     
     private func setupLayout() {
