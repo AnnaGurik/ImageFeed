@@ -9,7 +9,7 @@ final class SplashViewController: UIViewController {
     }()
     
     private let showAuthenticationScreenSegueIdentifier = "ShowAuthenticationScreen"
-
+    
     private let oauth2Service = OAuth2Service()
     private let oauth2TokenStorage = OAuth2TokenStorage()
     private let profileService = ProfileService.shared
@@ -58,7 +58,7 @@ final class SplashViewController: UIViewController {
             launchImage.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
-
+    
     private func switchToTabBarController() {
         guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration") }
         let tabBarController = UIStoryboard(name: "Main", bundle: .main)
@@ -85,7 +85,7 @@ extension SplashViewController: AuthViewControllerDelegate {
             self.fetchOAuthToken(code)
         }
     }
-
+    
     private func fetchOAuthToken(_ code: String) {
         oauth2Service.fetchOAuthToken(code) { [weak self] result in
             switch result {

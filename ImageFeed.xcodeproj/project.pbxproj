@@ -23,6 +23,7 @@
 		FE29CE362B44AAF400E05312 /* OAuth2Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE29CE352B44AAF400E05312 /* OAuth2Service.swift */; };
 		FE29CE382B44B27E00E05312 /* OAuth2TokenStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE29CE372B44B27E00E05312 /* OAuth2TokenStorage.swift */; };
 		FE29CE3B2B44B9F300E05312 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE29CE3A2B44B9F300E05312 /* SplashViewController.swift */; };
+		FE2B79AD2B5C149300AE4C83 /* LogoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE2B79AC2B5C149300AE4C83 /* LogoutManager.swift */; };
 		FE7058572B4B68C5005E852B /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7058562B4B68C5005E852B /* Photo.swift */; };
 		FE70585A2B4B7023005E852B /* ImagesListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7058592B4B7023005E852B /* ImagesListService.swift */; };
 		FE815D442B3879790057F07D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE815D432B3879790057F07D /* AppDelegate.swift */; };
@@ -77,6 +78,7 @@
 		FE29CE352B44AAF400E05312 /* OAuth2Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2Service.swift; sourceTree = "<group>"; };
 		FE29CE372B44B27E00E05312 /* OAuth2TokenStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2TokenStorage.swift; sourceTree = "<group>"; };
 		FE29CE3A2B44B9F300E05312 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
+		FE2B79AC2B5C149300AE4C83 /* LogoutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutManager.swift; sourceTree = "<group>"; };
 		FE7058562B4B68C5005E852B /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		FE7058592B4B7023005E852B /* ImagesListService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListService.swift; sourceTree = "<group>"; };
 		FE815D402B3879790057F07D /* ImageFeed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageFeed.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -208,6 +210,7 @@
 			children = (
 				FE29CE352B44AAF400E05312 /* OAuth2Service.swift */,
 				FE29CE372B44B27E00E05312 /* OAuth2TokenStorage.swift */,
+				FE2B79AC2B5C149300AE4C83 /* LogoutManager.swift */,
 			);
 			path = OAuth;
 			sourceTree = "<group>";
@@ -505,6 +508,7 @@
 				FE2373F42B4B21680038380C /* UIBlockingProgressHUD.swift in Sources */,
 				FE1CC5662B4B838800B8112C /* Like.swift in Sources */,
 				FEF673DF2B4B346200B3DA79 /* UserResult.swift in Sources */,
+				FE2B79AD2B5C149300AE4C83 /* LogoutManager.swift in Sources */,
 				FE815D4E2B3879790057F07D /* ImageFeed.xcdatamodeld in Sources */,
 				FEF673EA2B4B547200B3DA79 /* TabBarController.swift in Sources */,
 				FE815D442B3879790057F07D /* AppDelegate.swift in Sources */,

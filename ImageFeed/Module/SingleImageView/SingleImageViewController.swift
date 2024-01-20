@@ -3,7 +3,7 @@ import UIKit
 final class SingleImageViewController: UIViewController {
     var fullImageURL: URL?
     
-    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet private weak var scrollView: UIScrollView!
     @IBOutlet private weak var imageView: UIImageView!
     
     override func viewDidLoad() {

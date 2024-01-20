@@ -19,7 +19,7 @@ final class ProfileViewController: UIViewController {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 23, weight: .semibold)
         label.textColor = .white
-
+        
         return label
     }()
     
@@ -50,14 +50,14 @@ final class ProfileViewController: UIViewController {
         updateData()
         
         profileImageServiceObserver = NotificationCenter.default
-        .addObserver(
-            forName: ProfileImageService.didChangeNotification,
-            object: nil,
-            queue: .main
-        ) { [weak self] _ in
-            guard let self = self else { return }
-            self.updateAvatar()
-        }
+            .addObserver(
+                forName: ProfileImageService.didChangeNotification,
+                object: nil,
+                queue: .main
+            ) { [weak self] _ in
+                guard let self = self else { return }
+                self.updateAvatar()
+            }
         updateAvatar()
     }
     
@@ -129,7 +129,7 @@ extension ProfileViewController {
     }
     
     private func cleanAndLogout() {
-        OAuth2TokenStorage.clean()
+        LogoutManager.clean()
         
         guard let window = UIApplication.shared.windows.first else { return }
         window.rootViewController = SplashViewController()

@@ -10,7 +10,7 @@ final class OAuth2Service {
         assert(Thread.isMainThread)
         if task != nil {
             guard lastCode != code else { return }
-                task?.cancel()
+            task?.cancel()
         } else {
             if lastCode == code {
                 return
