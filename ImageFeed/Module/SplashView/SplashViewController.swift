@@ -9,7 +9,7 @@ final class SplashViewController: UIViewController {
     }()
     
     private let showAuthenticationScreenSegueIdentifier = "ShowAuthenticationScreen"
-
+    
     private let oauth2Service = OAuth2Service()
     private let oauth2TokenStorage = OAuth2TokenStorage()
     private let profileService = ProfileService.shared
@@ -58,7 +58,7 @@ final class SplashViewController: UIViewController {
             launchImage.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
-
+    
     private func switchToTabBarController() {
         guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration") }
         let tabBarController = UIStoryboard(name: "Main", bundle: .main)
@@ -70,7 +70,7 @@ final class SplashViewController: UIViewController {
 extension SplashViewController {
     private func showAuthView() {
         let storyboard = UIStoryboard(name: "Main", bundle: .main)
-        let authViewController = storyboard.instantiateViewController(withIdentifier: "AuthViewController") as! AuthViewController
+        guard let authViewController = storyboard.instantiateViewController(withIdentifier: "AuthViewController") as? AuthViewController else { return }
         authViewController.delegate = self
         authViewController.modalPresentationStyle = .fullScreen
         present(authViewController, animated: true, completion: nil)
@@ -85,7 +85,7 @@ extension SplashViewController: AuthViewControllerDelegate {
             self.fetchOAuthToken(code)
         }
     }
-
+    
     private func fetchOAuthToken(_ code: String) {
         oauth2Service.fetchOAuthToken(code) { [weak self] result in
             switch result {
@@ -112,15 +112,5 @@ extension SplashViewController: AuthViewControllerDelegate {
                 break
             }
         }
-    }
-}
-
-extension SplashViewController {
-    private func showAlert(title: String, description: String?) {
-        let alert = UIAlertController(title: title, message: description, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "Ок", style: .cancel)
-        alert.addAction(okAction)
-        
-        self.show(alert, sender: nil)
     }
 }

@@ -10,6 +10,8 @@ final class OAuth2TokenStorage {
         set {
             if let newValue = newValue {
                 KeychainWrapper.standard.set(newValue, forKey: "token")
+            } else {
+                KeychainWrapper.standard.removeObject(forKey: "token")
             }
         }
     }
