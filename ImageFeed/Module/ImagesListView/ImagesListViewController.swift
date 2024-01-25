@@ -1,11 +1,16 @@
 import UIKit
 
-final class ImagesListViewController: UIViewController {
+public protocol ImagesListViewControllerProtocol: AnyObject {
+    var presenter: ImagesListPresenterProtocol? { get set }
+    func setupTableView()
+    func updateTableViewAnimated(_ newPhotos: [Photo])
+}
+
+final class ImagesListViewController: UIViewController & ImagesListViewControllerProtocol {
     @IBOutlet private weak var tableView: UITableView!
     
+    var presenter: ImagesListPresenterProtocol?
     private let showSingleImageSegueIdentifier = "ShowSingleImage"
-    private let imagesListService = ImagesListService.shared
-    private let photosName: [String] = Array(0..<20).map{ "\($0)" }
     private var photos: [Photo] = []
     
     private lazy var dateFormatter: DateFormatter = {
@@ -17,12 +22,11 @@ final class ImagesListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        imagesListObserve()
-        tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
+        presenter?.viewDidLoad()
     }
     
-    deinit {
-        NotificationCenter.default.removeObserver(self, name: ImagesListService.DidChangeNotification, object: nil)
+    func setupTableView() {
+        tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -36,18 +40,6 @@ final class ImagesListViewController: UIViewController {
         } else {
             super.prepare(for: segue, sender: sender)
         }
-    }
-    
-    func imagesListObserve() {
-        NotificationCenter.default.addObserver(
-            forName: ImagesListService.DidChangeNotification,
-            object: nil,
-            queue: .main
-        ) { [weak self] _ in
-            guard let self = self else { return }
-            self.updateTableViewAnimated()
-        }
-        imagesListService.fetchPhotosNextPage()
     }
 }
 
@@ -70,14 +62,14 @@ extension ImagesListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if indexPath.row == photos.count-1 {
-            imagesListService.fetchPhotosNextPage()
+            presenter?.fetchPhotosNextPage()
         }
     }
     
-    func updateTableViewAnimated() {
+    func updateTableViewAnimated(_ newPhotos: [Photo]) {
         let oldCount = photos.count
-        let newCount = imagesListService.photos.count
-        photos = imagesListService.photos
+        let newCount = newPhotos.count
+        photos = newPhotos
         if oldCount != newCount {
             tableView.performBatchUpdates {
                 let indexPaths = (oldCount..<newCount).map { i in
@@ -107,7 +99,7 @@ extension ImagesListViewController {
             cell.dateLabel.text = ""
         }
         
-        let isLiked = imagesListService.photos[indexPath.row].isLiked
+        let isLiked = photos[indexPath.row].isLiked
         cell.setIsLiked(isLiked: isLiked)
     }
 }
@@ -133,16 +125,16 @@ extension ImagesListViewController: ImagesListCellDelegate {
     func imageListCellDidTapLike(_ cell: ImagesListCell) {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
         let photo = photos[indexPath.row]
-        imagesListService.changeLike(photoId: photo.id, isLike: photo.isLiked, { [weak self] result in
+        
+        presenter?.changeLike(photoId: photo.id, isLike: photo.isLiked, { [weak self] result in
             guard let self = self else { return }
+            
             switch result {
-            case .success:
-                self.photos = self.imagesListService.photos
+            case .success(let newPhotos):
+                self.photos = newPhotos
                 cell.setIsLiked(isLiked: self.photos[indexPath.row].isLiked)
-                UIBlockingProgressHUD.dismiss()
             case .failure:
                 self.showAlert(title: "Что-то пошло не так", description: nil)
-                UIBlockingProgressHUD.dismiss()
             }
         })
     }
