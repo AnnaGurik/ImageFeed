@@ -2,7 +2,7 @@ import Foundation
 
 final class ProfileImageService {
     static let shared = ProfileImageService()
-    static let DidChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
+    static let didChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
     
     private let urlSession = URLSession.shared
     private var task: URLSessionTask?
@@ -24,7 +24,7 @@ final class ProfileImageService {
                 completion(.success(profileImageUrl))
                 
                 NotificationCenter.default.post(
-                    name: ProfileImageService.DidChangeNotification,
+                    name: ProfileImageService.didChangeNotification,
                     object: self,
                     userInfo: ["URL": profileImageUrl]
                 )
@@ -44,33 +44,21 @@ final class ProfileImageService {
                 completion(result)
             }
         }
-
-        let task = urlSession.dataTask(with: request, completionHandler: { data, response, error in
+        
+        let task = urlSession.dataTask(with: request) { data, response, error in
             if let data = data, let response = response, let statusCode = (response as? HTTPURLResponse)?.statusCode {
-                if 200 ..< 300 ~= statusCode {
-                    fulfillCompletionOnTheMainThread(.success(data))
-                } else {
-                }
+                guard 200 ..< 300 ~= statusCode else { return }
+                fulfillCompletionOnTheMainThread(.success(data))
             } else if let error = error {
                 fulfillCompletionOnTheMainThread(.failure(error))
             }
-        })
+        }
         task.resume()
         return task
     }
     
-    private func object(for request: URLRequest, completion: @escaping (Result<UserResult, Error>) -> Void) -> URLSessionTask {
-        let decoder = JSONDecoder()
-        return data(for: request) { (result: Result<Data, Error>) in
-            let response = result.flatMap { data -> Result<UserResult, Error> in
-                Result { try decoder.decode(UserResult.self, from: data) }
-            }
-            completion(response)
-        }
-    }
-    
     private func makeRequest(username: String, token: String) -> URLRequest {
-        guard let url = URL(string: "/users/\(username)", relativeTo: AuthConfiguration.standard.defaultBaseURL) else { fatalError() }
+        guard let url = URL(string: "/users/\(username)", relativeTo: Constants.defaultBaseURL) else { fatalError() }
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"

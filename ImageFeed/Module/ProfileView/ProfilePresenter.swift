@@ -16,7 +16,7 @@ final class ProfilePresenter: ProfilePresenterProtocol {
         loadProfile()
         profileImageServiceObserver = NotificationCenter.default
         .addObserver(
-            forName: ProfileImageService.DidChangeNotification,
+            forName: ProfileImageService.didChangeNotification,
             object: nil,
             queue: .main
         ) { [weak self] _ in
@@ -27,7 +27,7 @@ final class ProfilePresenter: ProfilePresenterProtocol {
     }
     
     func cleanAndLogout() {
-        OAuth2TokenStorage.clean()
+        LogoutManager.clean()
         
         guard let window = UIApplication.shared.windows.first else { return }
         window.rootViewController = SplashViewController()

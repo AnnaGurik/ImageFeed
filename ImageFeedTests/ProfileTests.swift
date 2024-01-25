@@ -18,7 +18,7 @@ final class ProfileTests: XCTestCase {
     }
     
     func testLoadProfile() {
-        let profile = Profile(username: "anich", name: "Anna", loginName: "@anich", bio: "Что-то")
+        let profile = Profile(profileResult: ProfileResult(username: "anich", firstName: "Anna", lastName: "@anich", bio: "Что-то"))
         viewControllerSpy.updateData(profile: profile)
         
         XCTAssertTrue(viewControllerSpy.viewDidLoadProfile)

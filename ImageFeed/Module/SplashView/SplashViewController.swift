@@ -8,8 +8,8 @@ final class SplashViewController: UIViewController {
         return UIImageView(image: image)
     }()
     
-    private let ShowAuthenticationScreenSegueIdentifier = "ShowAuthenticationScreen"
-
+    private let showAuthenticationScreenSegueIdentifier = "ShowAuthenticationScreen"
+    
     private let oauth2Service = OAuth2Service()
     private let oauth2TokenStorage = OAuth2TokenStorage()
     private let profileService = ProfileService.shared
@@ -28,11 +28,18 @@ final class SplashViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if let token = oauth2TokenStorage.token {
-            UIBlockingProgressHUD.show()
-            self.fetchProfile(token: token)
-        } else {
-            showAuthView()
+        checkToken()
+    }
+    
+    private func checkToken() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            if let token = oauth2TokenStorage.token {
+                UIBlockingProgressHUD.show()
+                self.fetchProfile(token: token)
+            } else {
+                showAuthView()
+            }
         }
     }
     
@@ -51,7 +58,7 @@ final class SplashViewController: UIViewController {
             launchImage.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
-
+    
     private func switchToTabBarController() {
         guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration") }
         let tabBarController = UIStoryboard(name: "Main", bundle: .main)
@@ -63,7 +70,7 @@ final class SplashViewController: UIViewController {
 extension SplashViewController {
     private func showAuthView() {
         let storyboard = UIStoryboard(name: "Main", bundle: .main)
-        let authViewController = storyboard.instantiateViewController(withIdentifier: "AuthViewController") as! AuthViewController
+        guard let authViewController = storyboard.instantiateViewController(withIdentifier: "AuthViewController") as? AuthViewController else { return }
         authViewController.delegate = self
         authViewController.modalPresentationStyle = .fullScreen
         present(authViewController, animated: true, completion: nil)
@@ -78,7 +85,7 @@ extension SplashViewController: AuthViewControllerDelegate {
             self.fetchOAuthToken(code)
         }
     }
-
+    
     private func fetchOAuthToken(_ code: String) {
         oauth2Service.fetchOAuthToken(code) { [weak self] result in
             switch result {

@@ -7,7 +7,7 @@ protocol ImagesListCellDelegate: AnyObject {
 
 final class ImagesListCell: UITableViewCell {
     @IBOutlet weak var cellImage: UIImageView!
-    @IBOutlet weak var likeButton: UIButton!
+    @IBOutlet private weak var likeButton: UIButton!
     @IBOutlet weak var dateLabel: UILabel!
     static let reuseIdentifier = "ImagesListCell"
     
@@ -17,7 +17,8 @@ final class ImagesListCell: UITableViewCell {
         super.prepareForReuse()
         cellImage.kf.cancelDownloadTask()
     }
-    @IBAction func likeButtonClicked(_ sender: UIButton) {
+    
+    @IBAction private func likeButtonClicked(_ sender: UIButton) {
         UIBlockingProgressHUD.show()
         delegate?.imageListCellDidTapLike(self)
     }

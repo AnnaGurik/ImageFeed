@@ -10,9 +10,9 @@ final class ImagesListViewController: UIViewController & ImagesListViewControlle
     @IBOutlet private weak var tableView: UITableView!
     
     var presenter: ImagesListPresenterProtocol?
-    private let ShowSingleImageSegueIdentifier = "ShowSingleImage"
+    private let showSingleImageSegueIdentifier = "ShowSingleImage"
     private var photos: [Photo] = []
-
+    
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .long
@@ -30,9 +30,11 @@ final class ImagesListViewController: UIViewController & ImagesListViewControlle
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == ShowSingleImageSegueIdentifier {
-            let viewController = segue.destination as! SingleImageViewController
-            guard let indexPath = sender as? IndexPath else { return }
+        if segue.identifier == showSingleImageSegueIdentifier {
+            guard
+                let viewController = segue.destination as? SingleImageViewController,
+                let indexPath = sender as? IndexPath
+            else { return }
             let photoUrl = photos[indexPath.row].largeImageURL
             viewController.fullImageURL = URL(string: photoUrl)
         } else {
@@ -48,13 +50,13 @@ extension ImagesListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ImagesListCell.reuseIdentifier, for: indexPath)
-
+        
         guard let imageListCell = cell as? ImagesListCell else {
             return UITableViewCell()
         }
-
+        
         configCell(for: imageListCell, with: indexPath)
-
+        
         return imageListCell
     }
     
@@ -115,7 +117,7 @@ extension ImagesListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: ShowSingleImageSegueIdentifier, sender: indexPath)
+        performSegue(withIdentifier: showSingleImageSegueIdentifier, sender: indexPath)
     }
 }
 

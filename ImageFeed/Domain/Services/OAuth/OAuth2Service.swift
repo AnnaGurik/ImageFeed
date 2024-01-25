@@ -9,11 +9,8 @@ final class OAuth2Service {
     func fetchOAuthToken(_ code: String, completion: @escaping (Result<String, Error>) -> Void) {
         assert(Thread.isMainThread)
         if task != nil {
-            if lastCode != code {
-                task?.cancel()
-            } else {
-                return
-            }
+            guard lastCode != code else { return }
+            task?.cancel()
         } else {
             if lastCode == code {
                 return
@@ -43,9 +40,9 @@ final class OAuth2Service {
         guard
             let url = URL(
                 string: "/oauth/token"
-                + "?client_id=\(AuthConfiguration.standard.accessKey)"
-                + "&&client_secret=\(AuthConfiguration.standard.secretKey)"
-                + "&&redirect_uri=\(AuthConfiguration.standard.redirectURI)"
+                + "?client_id=\(Constants.accessKey)"
+                + "&&client_secret=\(Constants.secretKey)"
+                + "&&redirect_uri=\(Constants.redirectURI)"
                 + "&&code=\(code)"
                 + "&&grant_type=authorization_code",
                 relativeTo: URL(string: "https://unsplash.com")

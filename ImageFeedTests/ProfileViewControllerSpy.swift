@@ -1,5 +1,5 @@
-import ImageFeed
 import UIKit
+@testable import ImageFeed
 
 final class ProfileViewControllerSpy: ProfileViewControllerProtocol {
     var viewDidUpdateAvatar = false

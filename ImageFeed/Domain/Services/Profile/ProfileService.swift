@@ -6,13 +6,13 @@ final class ProfileService {
     private let urlSession = URLSession.shared
     private var task: URLSessionTask?
     private(set) var profile: Profile?
-
+    
     func fetchProfile(_ token: String, completion: @escaping (Result<Profile, Error>) -> Void) {
         assert(Thread.isMainThread)
         if task != nil {
             task?.cancel()
         }
-
+        
         let request = makeRequest(token: token)
         
         let task = urlSession.objectTask(for: request) { [weak self] (result: Result<ProfileResult, Error>) in
@@ -32,7 +32,7 @@ final class ProfileService {
     }
     
     private func makeRequest(token: String) -> URLRequest {
-        guard let url = URL(string: "/me", relativeTo: AuthConfiguration.standard.defaultBaseURL) else { fatalError() }
+        guard let url = URL(string: "/me", relativeTo: Constants.defaultBaseURL) else { fatalError() }
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"

@@ -4,10 +4,10 @@ final class ImageFeedUITests: XCTestCase {
     private let app = XCUIApplication()
     
     enum TestCreds {
-      static let email = "email"
-      static let pwd = "password"
-      static let name = "full name"
-      static let login = "@login"
+      static let email = "minigurk@mail.ru"
+      static let pwd = "anich123"
+      static let name = "anich"
+      static let login = "@anich"
     }
 
     override func setUpWithError() throws {
@@ -48,6 +48,7 @@ final class ImageFeedUITests: XCTestCase {
     }
     
     func testFeed() throws {
+        sleep(2)
         XCTAssertTrue(app.tabBars.buttons.element(boundBy: 0).waitForExistence(timeout: 3))
 
         let tableQuery = app.tables

@@ -25,7 +25,7 @@ final class ProfileViewController: UIViewController & ProfileViewControllerProto
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 23, weight: .semibold)
         label.textColor = .white
-
+        
         return label
     }()
     
@@ -58,8 +58,10 @@ final class ProfileViewController: UIViewController & ProfileViewControllerProto
     
     private func addSubviews() {
         let subviews: [UIView] = [profileImage, logoutButton, nameLabel, loginNameLabel, descriptionLabel]
-        subviews.forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
-        subviews.forEach { view.addSubview($0) }
+        subviews.forEach { 
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            view.addSubview($0)
+        }
     }
     
     private func setupLayout() {
